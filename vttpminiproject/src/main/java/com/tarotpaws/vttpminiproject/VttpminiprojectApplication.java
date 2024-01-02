@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.tarotpaws.vttpminiproject.models.FavouriteCard;
 import com.tarotpaws.vttpminiproject.service.TarotService;
 
 @SpringBootApplication

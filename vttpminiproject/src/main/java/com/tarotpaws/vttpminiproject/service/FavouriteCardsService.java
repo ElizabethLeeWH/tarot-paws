@@ -19,18 +19,20 @@ public class FavouriteCardsService {
     TarotService tService;
     
     public void addFavoriteCardService(String username, String cardName) throws IOException {
-        // Convert cardName to a Tarot object (adjust based on your actual Tarot class)
         Tarot card = new Tarot();
         List<Tarot> tarots = tService.searchCardsByName(cardName.replace("\"", ""));
         for(Tarot tarot: tarots){
-            System.out.println(tarot);
-            if (cardName.equals(tarot.getName())) {
+            String normalizedCardName = cardName.toLowerCase().replace("\"", "");
+            String normalizedTarotName = tarot.getName().toLowerCase().replace("\"", "");
+        
+            if (normalizedCardName.equals(normalizedTarotName)) {
                 card = tarot;
                 break;
             }
         }
+        System.out.println(card.getName());
 
-        if (card == null) {
+        if (card == null || card.getName() == null) {
             throw new RuntimeException("Card not found.");
         }
         // Check if the card is already a favorite
@@ -58,7 +60,8 @@ public class FavouriteCardsService {
     public boolean deleteFavouriteCard(String username, String cardName) {
         List<Tarot> favourites = redisRepo.getFavouriteCards(username);
         if (favourites != null) {
-            boolean isRemoved = favourites.removeIf(card -> card.getName().equals(cardName));
+            System.out.println("favourites before removal:" + favourites);
+            boolean isRemoved = favourites.removeIf(card -> cardName != null && cardName.equalsIgnoreCase(card.getName()));
             if (isRemoved) {
                 redisRepo.setFavouriteCards(username, favourites);
             }

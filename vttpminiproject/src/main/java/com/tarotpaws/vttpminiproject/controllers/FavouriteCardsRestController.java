@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tarotpaws.vttpminiproject.models.FavouriteCard;
 import com.tarotpaws.vttpminiproject.models.Tarot;
 import com.tarotpaws.vttpminiproject.service.FavouriteCardsService;
+import com.tarotpaws.vttpminiproject.service.TarotService;
 
 import jakarta.validation.Valid;
 
@@ -24,11 +25,19 @@ public class FavouriteCardsRestController {
     @Autowired
     FavouriteCardsService favCardsService;
 
+    @Autowired
+    TarotService tarotService;
+
     @PostMapping("/favourite")
     public ResponseEntity<?> addFavoriteCard(@Valid @RequestBody FavouriteCard favouriteCard) throws IOException {
         try {
-            favCardsService.addFavoriteCardService(favouriteCard.getUsername(), favouriteCard.getCardName());
-            return ResponseEntity.ok("Card added to favorites");
+            System.out.println(favouriteCard.getCardName().toString());
+            List<Tarot> cardsFound = tarotService.searchCardsByName(favouriteCard.getCardName());
+            if(cardsFound.size()!=1){
+                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Invalid cardName");
+            }
+            favCardsService.addFavoriteCardService(favouriteCard.getUsername().toString(), favouriteCard.getCardName().toString());
+            return ResponseEntity.ok("Card added to favourites");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
@@ -37,7 +46,8 @@ public class FavouriteCardsRestController {
     @PostMapping("/unfavourite")
     public ResponseEntity<?> deleteFavouriteCard(@Valid @RequestBody FavouriteCard favouriteCard) {
         try {
-            boolean isDeleted = favCardsService.deleteFavouriteCard(favouriteCard.getUsername(), favouriteCard.getCardName());
+            String cardNameWithQuotes = "\"" + favouriteCard.getCardName() + "\"";
+            boolean isDeleted = favCardsService.deleteFavouriteCard(favouriteCard.getUsername(), cardNameWithQuotes);
             if (isDeleted) {
                 return ResponseEntity.ok("Card unfavourited successfully");
             } else {
