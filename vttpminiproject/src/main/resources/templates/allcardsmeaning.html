@@ -130,7 +130,7 @@
                 individu-meow-tion.</p>
         </div>
         <div th:each="tarotCard, iterStat : ${allTarotCards}" th:if="${tarotCard.arcana.contains('major')}">
-            <div class="container-md bg-light rounded-3" th:id="'cups' + ${iterStat.index}">
+            <div class="container-md bg-light rounded-3" th:id="'major' + ${iterStat.index}">
                 <p><span th:text="${tarotCard.name}"></span></p>
                 <p>Description: <span th:text="${tarotCard.desc}"></span></p>
                 <p>Upright: <span th:text="${tarotCard.meaningUp}"></span></p>

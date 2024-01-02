@@ -85,6 +85,9 @@ public class TarotService {
             .filter(card -> card.getName().replace("\"", "").toLowerCase().contains(name.toLowerCase().trim()))
             .collect(Collectors.toList());
         // System.out.println("Searching for: " + name + ", found: " + searchResult.size() + " results" + searchResult);
+        if(name.isEmpty()){
+            searchResult = null;
+        }
         return searchResult;
     }
 
