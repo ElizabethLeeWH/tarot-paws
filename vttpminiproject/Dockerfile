@@ -1,4 +1,4 @@
-FROM openjdk:21-bookworm AS builder
+FROM maven:3-eclipse-temurin-21 AS builder
 
 #working and target dir
 WORKDIR /src
@@ -14,7 +14,7 @@ COPY pom.xml .
 RUN mvn package -Dmaven.test.skip=true
 
 
-FROM openjdk:21-bookworm
+FROM maven:3-eclipse-temurin-21
 WORKDIR /app
 
 # copy and rename to app.jar
