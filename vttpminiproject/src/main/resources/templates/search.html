@@ -96,20 +96,20 @@
                 <div class="accordion" id="myAccordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header rounded-pill" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 <span data-th-text="${tarotCard.name}">
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#myAccordion">
                             <div class="accordion-body row gx-lg-1">
                                 <!-- <div class="container"> -->
-                                    <div class="col-lg-6 col-xxl-2 mb-1 mt-1">
+                                    <div class="col-lg-3 col-xxl-2 mb-1 mt-1">
                                         <div class="card bg-light border-0 h-100">
                                             <img th:src="@{/cards/{img}(img=${tarotCard.img})}" alt="error">
                                         </div>
                                     </div>                    
-                                    <div class="col-lg-6 col-xxl-10 mb-1 mt-1">
-                                        <div class="card bg-light border-0 h-100">
+                                    <div class="col-lg-9 col-xxl-10 mb-1 mt-1">
+                                        <div class="card bg-light border-0 h-100 text-white">
                                             <p><span data-th-text="${tarotCard.name}"></span></p>
                                             <p><span data-th-text="${tarotCard.desc}"></span></p>
                                         </div>
