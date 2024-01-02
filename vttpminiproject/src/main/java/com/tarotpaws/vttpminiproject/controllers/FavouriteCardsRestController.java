@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.tarotpaws.vttpminiproject.models.FavouriteCard;
 import com.tarotpaws.vttpminiproject.models.Tarot;
 import com.tarotpaws.vttpminiproject.service.FavouriteCardsService;
@@ -32,6 +31,20 @@ public class FavouriteCardsRestController {
             return ResponseEntity.ok("Card added to favorites");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/unfavourite")
+    public ResponseEntity<?> deleteFavouriteCard(@Valid @RequestBody FavouriteCard favouriteCard) {
+        try {
+            boolean isDeleted = favCardsService.deleteFavouriteCard(favouriteCard.getUsername(), favouriteCard.getCardName());
+            if (isDeleted) {
+                return ResponseEntity.ok("Card unfavourited successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Card not found or could not be unfavourited");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
